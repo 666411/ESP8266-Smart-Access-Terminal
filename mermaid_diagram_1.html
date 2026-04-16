@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>流程图1：用户注册与审批流程</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        .mermaid { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>流程图1：用户注册与审批流程</h1>
+    <hr>
+    <div class="mermaid">
+graph TD
+    A[新用户通过Web注册界面填写并提交基本信息] --> B{上位机后端应用进行合法性校验};
+    B -- 校验通过 --> C[系统在数据库创建新用户记录 (状态:待审批)];
+    C --> D[管理员登录后台管理界面查看待审批列表];
+    D --> E{"管理员对申请执行操作?"};
+    E -- 批准 --> F[更新用户记录状态为已批准];
+    F --> G[为用户创建初始二维码信息];
+    G --> H[通过邮件通知用户账户已激活];
+    H --> I[流程结束: 注册成功];
+    E -- 拒绝 --> J[处理用户拒绝记录 (可选邮件通知)];
+    J --> K[流程结束: 注册被拒];
+    B -- 校验失败 --> L[向上位机Web界面返回错误提示];
+    L --> A;
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+</body>
+</html>
